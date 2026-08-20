@@ -1,2 +1,2 @@
 # bldaiappagntsdepth
-Build AI Apps and Agents
+Build cloud-native AI apps and agents
