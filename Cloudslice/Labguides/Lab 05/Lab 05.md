@@ -1,13 +1,13 @@
 <!--
 lab:
-  title: Lab 06 - Centralized AI agent governance and observability using Foundry Control Plane
+  title: Lab 05 - Centralized AI agent governance and observability using Foundry Control Plane
   description: This task focuses on creating an AI agent programmatically using the Foundry SDK. You will initialize the required clients, create the agent, and interact with it through conversations to observe its behavior and responses.
   duration: 7 minutes
   level: 300
   islab: true
 -->
 
-# Lab 06 - Centralized AI agent governance and observability using Foundry Control Plane
+# Lab 05 - Centralized AI agent governance and observability using Foundry Control Plane
 
 ## Introduction
 
