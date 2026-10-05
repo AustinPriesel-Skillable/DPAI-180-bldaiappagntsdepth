@@ -1,0 +1,16 @@
+# Python virtual environments (very large - recreate with pip install)
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Secrets - never commit
+.env
+*.env
+
+# Jupyter / OS / editor clutter
+.ipynb_checkpoints/
+Thumbs.db
+.DS_Store
+.vscode/
