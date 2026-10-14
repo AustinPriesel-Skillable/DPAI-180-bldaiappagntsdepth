@@ -96,6 +96,10 @@ After completing this workshop, you will be able to:
     +++az provider register --namespace Microsoft.PolicyInsights+++
 
     +++az provider register --namespace Microsoft.ServiceLinker+++
+    
+    +++az provider register --namespace Microsoft.ContainerService+++
+    
+    +++az provider register --namespace Microsoft.AlertsManagement+++
 
 ![](./media/image11.png)
 
