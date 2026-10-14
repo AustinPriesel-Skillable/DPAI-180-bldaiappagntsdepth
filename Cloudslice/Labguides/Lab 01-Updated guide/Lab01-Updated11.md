@@ -272,7 +272,7 @@ If this resource group was used for the lab before, Azure keeps the deleted Azur
 
 9.  Configure your Git identity by running the following commands, replacing the placeholder values with your GitHub username and email address:
 
-    +++git config user.name "<your GitHub user>"+++
+    +++git config user.name  "<your GitHub user>"+++
 
     +++git config user.email "<your email>"+++
 
@@ -318,8 +318,9 @@ In this task, you create the AKS Automatic cluster **myakscluster** and connect 
 
 4.  Run the following command to create the cluster. The command tries your resource group's region first, and then East US 2, West US 3, East US and Sweden Central. If a region has no capacity, the command removes the failed attempt and tries the next region. Creating the cluster takes 10–15 minutes.
 
-    +++for r in $LOCATION eastus2 westus3 eastus swedencentral; do echo ">>> Trying $r"; if az aks create --resource-group $RG_NAME --name myakscluster --location $r --sku automatic --node-vm-size Standard_D4ds_v5 --attach-acr $ACR_NAME --workspace-resource-id $LAW_ID --enable-azure-monitor-metrics --azure-monitor-workspace-resource-id $AMW_ID; then echo ">>> SUCCESS in $r"; break; else az aks delete --resource-group $RG_NAME --name myakscluster --yes 2>/dev/null; fi; done+++
-
+```
+for r in $LOCATION eastus2 westus3 eastus swedencentral; do echo ">>> Trying $r"; if az aks create --resource-group $RG_NAME --name myakscluster --location $r --sku automatic --node-vm-size Standard_D4ds_v5 --attach-acr $ACR_NAME --workspace-resource-id $LAW_ID --enable-azure-monitor-metrics --azure-monitor-workspace-resource-id $AMW_ID; then echo ">>> SUCCESS in $r"; break; else az aks delete --resource-group $RG_NAME --name myakscluster --yes 2>/dev/null; fi; done
+```
 ![](./media/image32.png)
 
 **Note:** Errors such as **AKSCapacityHeavyUsage** or **SkuNotAvailable** for a region are expected. The command continues with the next region. Wait until you see **\>\>\> SUCCESS in \<region\>**. Do not press any keys while the command runs.
