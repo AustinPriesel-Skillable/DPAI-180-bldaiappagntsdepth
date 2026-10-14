@@ -96,6 +96,10 @@ After completing this workshop, you will be able to:
     +++az provider register --namespace Microsoft.PolicyInsights+++
 
     +++az provider register --namespace Microsoft.ServiceLinker+++
+    
+    +++az provider register --namespace Microsoft.ContainerService+++
+    
+    +++az provider register --namespace Microsoft.AlertsManagement+++
 
 ![](./media/image11.png)
 
@@ -272,7 +276,7 @@ If this resource group was used for the lab before, Azure keeps the deleted Azur
 
 9.  Configure your Git identity by running the following commands, replacing the placeholder values with your GitHub username and email address:
 
-    +++git config user.name "<your GitHub user>"+++
+    +++git config user.name  "<your GitHub user>"+++
 
     +++git config user.email "<your email>"+++
 
@@ -318,8 +322,9 @@ In this task, you create the AKS Automatic cluster **myakscluster** and connect 
 
 4.  Run the following command to create the cluster. The command tries your resource group's region first, and then East US 2, West US 3, East US and Sweden Central. If a region has no capacity, the command removes the failed attempt and tries the next region. Creating the cluster takes 10–15 minutes.
 
-    +++for r in $LOCATION eastus2 westus3 eastus swedencentral; do echo ">>> Trying $r"; if az aks create --resource-group $RG_NAME --name myakscluster --location $r --sku automatic --node-vm-size Standard_D4ds_v5 --attach-acr $ACR_NAME --workspace-resource-id $LAW_ID --enable-azure-monitor-metrics --azure-monitor-workspace-resource-id $AMW_ID; then echo ">>> SUCCESS in $r"; break; else az aks delete --resource-group $RG_NAME --name myakscluster --yes 2>/dev/null; fi; done+++
-
+```
+for r in $LOCATION eastus2 westus3 eastus swedencentral; do echo ">>> Trying $r"; if az aks create --resource-group $RG_NAME --name myakscluster --location $r --sku automatic --node-vm-size Standard_D4ds_v5 --attach-acr $ACR_NAME --workspace-resource-id $LAW_ID --enable-azure-monitor-metrics --azure-monitor-workspace-resource-id $AMW_ID; then echo ">>> SUCCESS in $r"; break; else az aks delete --resource-group $RG_NAME --name myakscluster --yes 2>/dev/null; fi; done
+```
 ![](./media/image32.png)
 
 **Note:** Errors such as **AKSCapacityHeavyUsage** or **SkuNotAvailable** for a region are expected. The command continues with the next region. Wait until you see **\>\>\> SUCCESS in \<region\>**. Do not press any keys while the command runs.
@@ -358,7 +363,9 @@ In this task, you create the AKS Automatic cluster **myakscluster** and connect 
 
 9.  (Optional) Run the following command to confirm that the cluster can pull images from your registry. The output must include a row with the **AcrPull** role.
 
-    +++az role assignment list --assignee $(az aks show -g $RG_NAME -n myakscluster --query identityProfile.kubeletidentity.objectId -o tsv) --scope $(az acr show -n $ACR_NAME --query id -o tsv) -o table+++
+```
+az role assignment list --assignee $(az aks show -g $RG_NAME -n myakscluster --query identityProfile.kubeletidentity.objectId -o tsv) --scope $(az acr show -n $ACR_NAME --query id -o tsv) -o table
+```
 
 ![](./media/image36.png)
 
@@ -388,7 +395,12 @@ GitHub Actions signs in to Azure with a user-assigned managed identity and a fed
 
 3.  Run the following command to save the identity's client ID and principal ID.
 
-    +++export WF_CLIENT_ID=$(az identity show -g $RG_NAME -n workflowapp-identity --query clientId -o tsv) && export WF_PRINCIPAL_ID=$(az identity show -g $RG_NAME -n workflowapp-identity --query principalId -o tsv)+++
+```
+export GH_USER=$(gh api user --jq .login) && export OWNER_ID=$(gh api repos/$GH_USER/contoso-air --jq .owner.id) && export REPO_ID=$(gh api repos/$GH_USER/contoso-air --jq .id)
+```
+```
+echo "GH_USER=$GH_USER OWNER_ID=$OWNER_ID REPO_ID=$REPO_ID"
+```
 
 ![](./media/image39.png)
 
@@ -426,19 +438,31 @@ GitHub Actions signs in to Azure with a user-assigned managed identity and a fed
 
 ![](./media/image43.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Reader --scope $(az group show -n $RG_NAME --query id -o tsv)+++
+```
+cd ~/contoso-air && source ~/aks-lab.env && export WF_PRINCIPAL_ID=$(az identity show -g $RG_NAME -n workflowapp-identity --query principalId -o tsv) && echo "RG_NAME=$RG_NAME WF_PRINCIPAL_ID=$WF_PRINCIPAL_ID"
+```
+
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Reader --scope $(az group show -n $RG_NAME --query id -o tsv)
+```
 
 ![](./media/image44.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Contributor --scope $(az acr list -g $RG_NAME --query "[0].id" -o tsv)+++
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Contributor --scope $(az acr list -g $RG_NAME --query "[0].id" -o tsv)
+```
 
 ![](./media/image45.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service Cluster User Role" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)+++
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service Cluster User Role" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)
+```
 
 ![](./media/image46.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service RBAC Cluster Admin" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)+++
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service RBAC Cluster Admin" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)
+```
 
 ![](./media/image47.png)
 
@@ -470,19 +494,25 @@ GitHub Actions signs in to Azure with a user-assigned managed identity and a fed
 
 4.  Run the following command to save the Azure sign-in details as repository secrets in your fork.
 
-    +++gh secret set AZURE_CLIENT_ID -R $GH_REPO_FULL --body "$(az identity show -g $RG_NAME -n workflowapp-identity --query clientId -o tsv)" && gh secret set AZURE_TENANT_ID -R $GH_REPO_FULL --body "$(az account show --query tenantId -o tsv)" && gh secret set AZURE_SUBSCRIPTION_ID -R $GH_REPO_FULL --body "$(az account show --query id -o tsv)"+++
+```
+gh secret set AZURE_CLIENT_ID -R $GH_REPO_FULL --body "$(az identity show -g $RG_NAME -n workflowapp-identity --query clientId -o tsv)" && gh secret set AZURE_TENANT_ID -R $GH_REPO_FULL --body "$(az account show --query tenantId -o tsv)" && gh secret set AZURE_SUBSCRIPTION_ID -R $GH_REPO_FULL --body "$(az account show --query id -o tsv)"
+```
 
 ![](./media/image53.png)
 
 5.  Run the following command to save your resource names as repository variables in your fork. The workflow reads these values, so it works with the resource names in your lab.
 
-    +++gh variable set RESOURCE_GROUP -R $GH_REPO_FULL --body "$RG_NAME" && gh variable set ACR_NAME -R $GH_REPO_FULL --body "$(az acr list -g $RG_NAME --query "[0].name" -o tsv)" && gh variable set CLUSTER_NAME -R $GH_REPO_FULL --body "myakscluster"+++
+```
+gh variable set RESOURCE_GROUP -R $GH_REPO_FULL --body "$RG_NAME" && gh variable set ACR_NAME -R $GH_REPO_FULL --body "$(az acr list -g $RG_NAME --query "[0].name" -o tsv)" && gh variable set CLUSTER_NAME -R $GH_REPO_FULL --body "myakscluster"
+```
 
 ![](./media/image54.png)
 
 6.  Run the following command to verify. You should see three secrets (**AZURE_CLIENT_ID**, **AZURE_SUBSCRIPTION_ID**, **AZURE_TENANT_ID**) and three variables (**ACR_NAME**, **CLUSTER_NAME**, **RESOURCE_GROUP**) with your values.
 
-    +++gh secret list -R $GH_REPO_FULL && gh variable list -R $GH_REPO_FULL+++
+ ```
+gh secret list -R $GH_REPO_FULL && gh variable list -R $GH_REPO_FULL
+```
 
 ### Task 4: Add the deployment workflow and Kubernetes manifests
 
@@ -496,7 +526,7 @@ In this task, you add a GitHub Actions workflow and the Kubernetes manifests to 
 
 2.  Create the Deployment manifest. Copy the whole block below, including the last line **EOF**, paste it into Cloud Shell and press Enter.
 
-```bash
+```
 cat > manifests/deployment.yaml <<'EOF'
 apiVersion: apps/v1
 kind: Deployment
@@ -542,7 +572,9 @@ EOF
 
 3.  Run the following commands to create the Service and ConfigMap manifests.
 
-    +++printf 'apiVersion: v1\nkind: Service\nmetadata:\n  name: contoso-air\nspec:\n  type: LoadBalancer\n  selector:\n    app: contoso-air\n  ports:\n  - port: 80\n    targetPort: 3000\n' > manifests/service.yaml+++
+```
+printf 'apiVersion: v1\nkind: Service\nmetadata:\n  name: contoso-air\nspec:\n  type: LoadBalancer\n  selector:\n    app: contoso-air\n  ports:\n  - port: 80\n    targetPort: 3000\n' > manifests/service.yaml
+```
 
     +++printf 'apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: contoso-air-config\n' > manifests/configmap.yaml+++
 
@@ -550,7 +582,7 @@ EOF
 
 4.  Create the GitHub Actions workflow. Copy the whole block below, including the last line **EOF**, paste it into Cloud Shell and press Enter.
 
-```bash
+```
 cat > .github/workflows/aks-deploy.yaml <<'EOF'
 name: Automated Deployments - contoso-air
 on:
