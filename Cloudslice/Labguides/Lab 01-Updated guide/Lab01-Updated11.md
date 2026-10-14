@@ -395,7 +395,12 @@ GitHub Actions signs in to Azure with a user-assigned managed identity and a fed
 
 3.  Run the following command to save the identity's client ID and principal ID.
 
-    +++export WF_CLIENT_ID=$(az identity show -g $RG_NAME -n workflowapp-identity --query clientId -o tsv) && export WF_PRINCIPAL_ID=$(az identity show -g $RG_NAME -n workflowapp-identity --query principalId -o tsv)+++
+```
+export GH_USER=$(gh api user --jq .login) && export OWNER_ID=$(gh api repos/$GH_USER/contoso-air --jq .owner.id) && export REPO_ID=$(gh api repos/$GH_USER/contoso-air --jq .id)
+```
+```
+echo "GH_USER=$GH_USER OWNER_ID=$OWNER_ID REPO_ID=$REPO_ID"
+```
 
 ![](./media/image39.png)
 
@@ -433,19 +438,31 @@ GitHub Actions signs in to Azure with a user-assigned managed identity and a fed
 
 ![](./media/image43.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Reader --scope $(az group show -n $RG_NAME --query id -o tsv)+++
+```
+cd ~/contoso-air && source ~/aks-lab.env && export WF_PRINCIPAL_ID=$(az identity show -g $RG_NAME -n workflowapp-identity --query principalId -o tsv) && echo "RG_NAME=$RG_NAME WF_PRINCIPAL_ID=$WF_PRINCIPAL_ID"
+```
+
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Reader --scope $(az group show -n $RG_NAME --query id -o tsv)
+```
 
 ![](./media/image44.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Contributor --scope $(az acr list -g $RG_NAME --query "[0].id" -o tsv)+++
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role Contributor --scope $(az acr list -g $RG_NAME --query "[0].id" -o tsv)
+```
 
 ![](./media/image45.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service Cluster User Role" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)+++
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service Cluster User Role" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)
+```
 
 ![](./media/image46.png)
 
-+++az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service RBAC Cluster Admin" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)+++
+```
+az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-principal-type ServicePrincipal --role "Azure Kubernetes Service RBAC Cluster Admin" --scope $(az aks show -g $RG_NAME -n myakscluster --query id -o tsv)
+```
 
 ![](./media/image47.png)
 
