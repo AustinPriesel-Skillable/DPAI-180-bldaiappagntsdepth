@@ -363,7 +363,9 @@ for r in $LOCATION eastus2 westus3 eastus swedencentral; do echo ">>> Trying $r"
 
 9.  (Optional) Run the following command to confirm that the cluster can pull images from your registry. The output must include a row with the **AcrPull** role.
 
-    +++az role assignment list --assignee $(az aks show -g $RG_NAME -n myakscluster --query identityProfile.kubeletidentity.objectId -o tsv) --scope $(az acr show -n $ACR_NAME --query id -o tsv) -o table+++
+```
+az role assignment list --assignee $(az aks show -g $RG_NAME -n myakscluster --query identityProfile.kubeletidentity.objectId -o tsv) --scope $(az acr show -n $ACR_NAME --query id -o tsv) -o table
+```
 
 ![](./media/image36.png)
 
