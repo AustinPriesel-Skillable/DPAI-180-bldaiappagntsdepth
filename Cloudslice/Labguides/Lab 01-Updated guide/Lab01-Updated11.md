@@ -494,19 +494,25 @@ az role assignment create --assignee-object-id $WF_PRINCIPAL_ID --assignee-princ
 
 4.  Run the following command to save the Azure sign-in details as repository secrets in your fork.
 
-    +++gh secret set AZURE_CLIENT_ID -R $GH_REPO_FULL --body "$(az identity show -g $RG_NAME -n workflowapp-identity --query clientId -o tsv)" && gh secret set AZURE_TENANT_ID -R $GH_REPO_FULL --body "$(az account show --query tenantId -o tsv)" && gh secret set AZURE_SUBSCRIPTION_ID -R $GH_REPO_FULL --body "$(az account show --query id -o tsv)"+++
+```
+gh secret set AZURE_CLIENT_ID -R $GH_REPO_FULL --body "$(az identity show -g $RG_NAME -n workflowapp-identity --query clientId -o tsv)" && gh secret set AZURE_TENANT_ID -R $GH_REPO_FULL --body "$(az account show --query tenantId -o tsv)" && gh secret set AZURE_SUBSCRIPTION_ID -R $GH_REPO_FULL --body "$(az account show --query id -o tsv)"
+```
 
 ![](./media/image53.png)
 
 5.  Run the following command to save your resource names as repository variables in your fork. The workflow reads these values, so it works with the resource names in your lab.
 
-    +++gh variable set RESOURCE_GROUP -R $GH_REPO_FULL --body "$RG_NAME" && gh variable set ACR_NAME -R $GH_REPO_FULL --body "$(az acr list -g $RG_NAME --query "[0].name" -o tsv)" && gh variable set CLUSTER_NAME -R $GH_REPO_FULL --body "myakscluster"+++
+```
+gh variable set RESOURCE_GROUP -R $GH_REPO_FULL --body "$RG_NAME" && gh variable set ACR_NAME -R $GH_REPO_FULL --body "$(az acr list -g $RG_NAME --query "[0].name" -o tsv)" && gh variable set CLUSTER_NAME -R $GH_REPO_FULL --body "myakscluster"
+```
 
 ![](./media/image54.png)
 
 6.  Run the following command to verify. You should see three secrets (**AZURE_CLIENT_ID**, **AZURE_SUBSCRIPTION_ID**, **AZURE_TENANT_ID**) and three variables (**ACR_NAME**, **CLUSTER_NAME**, **RESOURCE_GROUP**) with your values.
 
-    +++gh secret list -R $GH_REPO_FULL && gh variable list -R $GH_REPO_FULL+++
+ ```
+gh secret list -R $GH_REPO_FULL && gh variable list -R $GH_REPO_FULL
+```
 
 ### Task 4: Add the deployment workflow and Kubernetes manifests
 
@@ -520,7 +526,7 @@ In this task, you add a GitHub Actions workflow and the Kubernetes manifests to 
 
 2.  Create the Deployment manifest. Copy the whole block below, including the last line **EOF**, paste it into Cloud Shell and press Enter.
 
-```bash
+```
 cat > manifests/deployment.yaml <<'EOF'
 apiVersion: apps/v1
 kind: Deployment
@@ -566,7 +572,9 @@ EOF
 
 3.  Run the following commands to create the Service and ConfigMap manifests.
 
-    +++printf 'apiVersion: v1\nkind: Service\nmetadata:\n  name: contoso-air\nspec:\n  type: LoadBalancer\n  selector:\n    app: contoso-air\n  ports:\n  - port: 80\n    targetPort: 3000\n' > manifests/service.yaml+++
+```
+printf 'apiVersion: v1\nkind: Service\nmetadata:\n  name: contoso-air\nspec:\n  type: LoadBalancer\n  selector:\n    app: contoso-air\n  ports:\n  - port: 80\n    targetPort: 3000\n' > manifests/service.yaml
+```
 
     +++printf 'apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: contoso-air-config\n' > manifests/configmap.yaml+++
 
@@ -574,7 +582,7 @@ EOF
 
 4.  Create the GitHub Actions workflow. Copy the whole block below, including the last line **EOF**, paste it into Cloud Shell and press Enter.
 
-```bash
+```
 cat > .github/workflows/aks-deploy.yaml <<'EOF'
 name: Automated Deployments - contoso-air
 on:
