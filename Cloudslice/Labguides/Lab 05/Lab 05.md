@@ -7,7 +7,7 @@ lab:
   islab: true
 -->
 
-# Lab 05 - Centralized AI agent governance and observability using Foundry Control Plane
+# Lab 05 - Observe and optimize a multi-agent travel assistant with Microsoft Foundry​
 
 ## Introduction
 
