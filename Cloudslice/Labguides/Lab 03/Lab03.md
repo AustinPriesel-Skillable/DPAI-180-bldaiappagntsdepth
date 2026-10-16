@@ -334,9 +334,9 @@ variables.
 
 ![](./media/image36.png)
 
-4.  Navigate to the **C:\LabFiles** directory.
+4.  Navigate to the **C:\Lab files** directory.
 
-> +++cd C:\LabFiles+++
+> +++cd C:\Lab files+++
 
 5.  Create a new folder named **day2lab**.
 
