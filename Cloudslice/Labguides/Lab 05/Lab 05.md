@@ -43,21 +43,39 @@ In this exercise, you will establish the foundational setup required to begin wo
 |----|----|
 | **Temporary Access Pass** | **+++@lab.CloudPortalCredential(User1).AccessToken+++** |
 
-2.  On the Azure portal home page, under **Azure services**, select **Foundry**.
+2. Click on Subscriptions tile.
+   ![](./media/lab5b1.png)
+   
+3. Click on the subscription name.
+   ![](./media/lab5b2.png)
+
+4. Expand Settings from the left navigation menu. Click on Resource providers, enter +++Microsoft.CognitiveServices+++ and select it, and then click Register.
+
+   ![](./media/lab5b3.png)
+
+5. Repeat step 4 to register the following Resource provider.
+o	+++Microsoft.AlertsManagement+++
+o	+++Microsoft.App+++
+o	+++Microsoft.ContainerRegistry+++
+o	+++Microsoft.OperationalInsights+++
+o	+++Microsoft.Insights+++
+ 
+
+6.  On the Azure portal home page, under **Azure services**, select **Foundry**.
 
 ![](./media/lab5a1.png)
 
 **Tip:** If **Foundry** is not shown on the home page, enter +++Microsoft Foundry+++ in the portal search bar and select **Microsoft Foundry**.
 
-3.  In the left navigation pane, expand **All models,agents&tools**, and then select **Microsoft Foundry**.
+7.  In the left navigation pane, expand **All models,agents&tools**, and then select **Microsoft Foundry**.
 
 ![](./media/lab5a20.png)
 
-4.  Select **+ Create**.
+8.  Select **+ Create**.
 
 ![](./media/lab5a3.png)
 
-5.  On the **Basics** tab, enter the following details:
+9.  On the **Basics** tab, enter the following details:
 
 | **Setting** | **Value** |
 |----|----|
@@ -70,41 +88,41 @@ In this exercise, you will establish the foundational setup required to begin wo
 
 **Note:** The Foundry resource name must be unique. If you see *The name is already in use*, add a few more characters to the end of it (for example, **1**).
 
-6.  Scroll down to **Your first project**. In the **Default project name** box, enter +++Contoso-Travel-@lab.LabInstance.Id+++, and then select **Next**.
+10.  Scroll down to **Your first project**. In the **Default project name** box, enter +++Contoso-Travel-@lab.LabInstance.Id+++, and then select **Next**.
 
 ![](./media/lab5a5.png)
 
 **Note:** When you create a Foundry resource, a default project is also created. The default project has more capabilities than projects that you create later.
 
-7.  On the **Storage** tab, under **Credential storage and application logging**, select **Select Application Insights**.
+11.  On the **Storage** tab, under **Credential storage and application logging**, select **Select Application Insights**.
 
 ![](./media/lab5a6.png)
 
 **Note:** Application Insights collects the traces, logs, and performance data from the apps and agents in this Foundry resource. The settings on this tab become the default for every project created under this Foundry resource.
 
-8.  In the **Select Application Insights** pane, select **Create new**. In the **Name** box, enter +++Contoso-Travel+++, and then select **Create**.
+12.  In the **Select Application Insights** pane, select **Create new**. In the **Name** box, enter +++Contoso-Travel+++, and then select **Create**.
 
-9.  Select **Add**.
+13.  Select **Add**.
 
 ![](./media/lab5a7.png)
 
-10. Verify that **Contoso-Travel** is shown under **Application Insights**, and then select **Review + create**.
+14. Verify that **Contoso-Travel** is shown under **Application Insights**, and then select **Review + create**.
 
 ![](./media/lab5a8.png)
 
 **Note:** You can leave **Key Vault** empty. In the basic configuration, credentials are stored directly on the Foundry resource.
 
-11. Review the settings, and then select **Create**.
+15. Review the settings, and then select **Create**.
 
-12. Wait for the deployment to complete. The **Deployment details** list shows the Foundry resource and the **Contoso-Travel** Application Insights resource. This takes about **2-5 minutes**.
+16. Wait for the deployment to complete. The **Deployment details** list shows the Foundry resource and the **Contoso-Travel** Application Insights resource. This takes about **2-5 minutes**.
 
 ![](./media/lab5a9.png)
 
-13. When you see **Your deployment is complete**, select **Go to resource**.
+17. When you see **Your deployment is complete**, select **Go to resource**.
 
 ![](./media/lab5a10.png)
 
-14. On the Foundry resource **Overview** page, verify that the **API Kind** is **AIServices**, the **Location** is **eastus2**, and the **Status** is **Succeeded**. Then select **Go to Foundry portal**.
+18. On the Foundry resource **Overview** page, verify that the **API Kind** is **AIServices**, the **Location** is **eastus2**, and the **Status** is **Succeeded**. Then select **Go to Foundry portal**.
 
 ![](./media/lab5a11.png)
 
