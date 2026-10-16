@@ -443,9 +443,9 @@ then **Save**; otherwise the backend cannot connect to the cluster.
 4.  Back in Visual Studio Code, verify that **AZURE_PG_NAME** is set to
     **postgres**, and then run the database setup script.
 
-> +++.\.venv\Scripts\python -m app.setup_database+++
+> +++.\.venv\Scripts\python -m app.setup_database 2>&1 | Select-Object -Last 15+++
 
-![](./media/image47.png)
+![](./media/lab3a2.png)
 
 **Note:** At this point, the script fails with a **HINT: to learn how to
 allow an extension...** message. This is expected - HorizonDB only
