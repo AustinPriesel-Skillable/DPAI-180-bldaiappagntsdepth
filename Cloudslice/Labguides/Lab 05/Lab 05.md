@@ -35,25 +35,81 @@ In modern AI-driven applications, managing multiple AI agents, ensuring their re
 
 In this exercise, you will establish the foundational setup required to begin working with AI agents in Microsoft Foundry. The focus is on creating a project environment, configuring essential resources, and understanding the basic workflow of agent development. You will create a Foundry project, define an AI agent, and enable monitoring using Azure Application Insights. Additionally, you will explore how to test agent prompts, analyze responses, and review evaluation metrics. This exercise provides the necessary groundwork for building, monitoring, and governing AI agents effectively.
 
-### Task 1: Microsoft Foundry project
+## Task 1: Create the Microsoft Foundry resource
 
-This task introduces you to the process of setting up your Microsoft Foundry project. You will access the Foundry portal, create a new project, and configure it with the appropriate subscription and resource group. This step is essential as it establishes the environment where all subsequent AI development and management activities will take place.
+1.  Open a browser and sign in to the Azure portal at +++https://portal.azure.com/+++ with your credentials.
 
-Follow the steps below to complete the setup of your Microsoft Foundry project.
+| **Username** | **+++@lab.CloudPortalCredential(User1).Username+++** |
+|----|----|
+| **Temporary Access Pass** | **+++@lab.CloudPortalCredential(User1).AccessToken+++** |
 
-1. Open a new tab and copy and navigate to this link +++https://ai.azure.com/templates+++.
+2.  On the Azure portal home page, under **Azure services**, select **Foundry**.
 
-1. You should see a dialog box prompting you to select a project to continue.
+![](./media/lab5a1.png)
 
-1. Replace the existing project name with +++Contoso-Travel-2306402+++ and click on **Create** to set up your Microsoft Foundry project.
+**Tip:** If **Foundry** is not shown on the home page, enter +++Microsoft Foundry+++ in the portal search bar and select **Microsoft Foundry**.
 
-    ![](https://raw.githubusercontent.com/technofocus-pte/accagntcaifrntr/refs/heads/main/Spectra-cloudslice/Labguides/Usecase%2007/media/image1.png)
+3.  In the left navigation pane, expand **Use with Foundry**, and then select **Foundry**.
 
-1. The project creation process may take a few minutes to complete.
+![](./media/lab5a2.png)
 
-1. On the **Your project is set up. What would you like to do next?** pop-up, click on **Skip**.
+4.  Select **+ Create**.
 
-    ![](https://raw.githubusercontent.com/technofocus-pte/accagntcaifrntr/refs/heads/main/Spectra-cloudslice/Labguides/Usecase%2007/media/image2.png)
+![](./media/lab5a3.png)
+
+5.  On the **Basics** tab, enter the following details:
+
+| **Setting** | **Value** |
+|----|----|
+| **Subscription** | Keep the default subscription |
+| **Resource group** | **@lab.CloudResourceGroup(AgenticAI).Name** |
+| **Name** | **+++Contoso-Travel@lab.LabInstance.Id+++** |
+| **Region** | **(US) East US 2** |
+
+![](./media/lab5a4.png)
+
+**Note:** The Foundry resource name must be unique. If you see *The name is already in use*, add a few more characters to the end of it (for example, **1**).
+
+6.  Scroll down to **Your first project**. In the **Default project name** box, enter +++Contoso-Travel-@lab.LabInstance.Id+++, and then select **Next**.
+
+![](./media/lab5a5.png)
+
+**Note:** When you create a Foundry resource, a default project is also created. The default project has more capabilities than projects that you create later.
+
+7.  On the **Storage** tab, under **Credential storage and application logging**, select **Select Application Insights**.
+
+![](./media/lab5a6.png)
+
+**Note:** Application Insights collects the traces, logs, and performance data from the apps and agents in this Foundry resource. The settings on this tab become the default for every project created under this Foundry resource.
+
+8.  In the **Select Application Insights** pane, select **Create new**. In the **Name** box, enter +++Contoso-Travel+++, and then select **Create**.
+
+9.  Select **Add**.
+
+![](./media/lab5a7.png)
+
+10. Verify that **Contoso-Travel** is shown under **Application Insights**, and then select **Review + create**.
+
+![](./media/lab5a8.png)
+
+**Note:** You can leave **Key Vault** empty. In the basic configuration, credentials are stored directly on the Foundry resource.
+
+11. Review the settings, and then select **Create**.
+
+12. Wait for the deployment to complete. The **Deployment details** list shows the Foundry resource and the **Contoso-Travel** Application Insights resource. This takes about **2-5 minutes**.
+
+![](./media/lab5a9.png)
+
+13. When you see **Your deployment is complete**, select **Go to resource**.
+
+![](./media/lab5a10.png)
+
+14. On the Foundry resource **Overview** page, verify that the **API Kind** is **AIServices**, the **Location** is **eastus2**, and the **Status** is **Succeeded**. Then select **Go to Foundry portal**.
+
+![](./media/lab5a11.png)
+
+**Note:** The Foundry portal opens in a new browser tab. Keep the Azure portal tab open; you will return to it in later exercises.
+
 
 
 ### Task 2: Create an AI Agent
