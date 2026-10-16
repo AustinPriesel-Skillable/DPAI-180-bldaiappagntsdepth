@@ -612,7 +612,7 @@ start of the line.
 
 ![](./media/image64.png)
 
-5.  If the command lists **AZURE_OPENAI_API_KEY** or
+[!IMPORTANT] : If the command lists **AZURE_OPENAI_API_KEY** or
     **AZURE_OPENAI_ENDPOINT** (left over from another lab), remove them
     so that the values in your **.env** file are used.
 
@@ -620,14 +620,14 @@ start of the line.
 >
 > +++Remove-Item Env:AZURE_OPENAI_API_KEY -ErrorAction SilentlyContinue+++
 
-6.  Run the following command again and confirm that nothing is
+5.  Run the following command again and confirm that nothing is
     returned.
 
 > +++Get-ChildItem Env: | Where-Object Name -like "AZURE*"+++
 
 ![](./media/image65.png)
 
-**Important:** Environment variables set in the terminal take
+[!IMPORTANT] Environment variables set in the terminal take
 precedence over the .env file. If you skip this step, the app may call a
 different Azure OpenAI resource and fail with an authentication or
 *deployment not found* error.
