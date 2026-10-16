@@ -81,7 +81,7 @@ o	+++Microsoft.Insights+++
 |----|----|
 | **Subscription** | Keep the default subscription |
 | **Resource group** | **@lab.CloudResourceGroup(AgenticAI).Name** |
-| **Name** | **+++Contoso-Travel@lab.LabInstance.Id+++** |
+| **Name** | **+++Contoso-Travel-@lab.LabInstance.Id-resource+++** |
 | **Region** | **(US) East US 2** |
 
 ![](./media/lab5a4.png)
