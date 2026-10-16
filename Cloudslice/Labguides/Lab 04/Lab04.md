@@ -132,7 +132,7 @@ The deployment template grants your user account access to Azure AI Search, Azur
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2004/media/image10.png)
 
-1. In the template editor, under **parameters**, verify that the **location** parameter has **"defaultValue": "swedencentral"**.
+1. In the template editor, under **parameters**, verify that the **location** parameter has **"defaultValue": "eastus"**.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2004/media/image11.png)
 
@@ -182,6 +182,9 @@ The deployment template grants your user account access to Azure AI Search, Azur
 1. Verify that the resource group contains the Foundry resource, the Foundry project, the Azure OpenAI resource, the Search service (Foundry IQ), a managed identity, a deployment script, and a storage account.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2004/media/image19.png)
+
+
+	> [!alert] If you get an **Another operation is in progress on the resource** error, select **Redeploy**.
 
 
 ### Task 3: Copy the deployment outputs
