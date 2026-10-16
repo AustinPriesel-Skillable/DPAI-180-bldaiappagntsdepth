@@ -431,11 +431,10 @@ cluster name (for example, horizondb675489) causes a *database does not
 exist* error.
 
 3.  Switch to the Azure portal, open your HorizonDB cluster, and under
-    **Settings** select **Networking**. Verify that **Allow public
-    access from any Azure service within Azure to this cluster** is
+    **Settings** select **Networking**. Select **Add current clint IP address(223.185.130.94)** is
     selected, and then click on **Save** if you made any changes.
 
-![](./media/image46.png)
+![](./media/lab3a1.png)
 
 **Note:** If you run the app from a machine outside Azure (for example,
 your own laptop), also select **+ Add current client IP address** and
