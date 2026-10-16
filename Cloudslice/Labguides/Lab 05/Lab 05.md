@@ -7,11 +7,11 @@ lab:
   islab: true
 -->
 
-# Lab 05 - Centralized AI agent governance and observability using Foundry Control Plane
+# Lab 05 - Observe and optimize a multi-agent travel assistant with Microsoft Foundry​
 
 ## Introduction
 
-In modern AI-driven applications, managing multiple AI agents, ensuring their reliability, and maintaining visibility into their behavior is essential. This scenario focuses on implementing centralized governance and observability using Microsoft Foundry Control Plane. The lab walks through the complete lifecycle of AI agents-from creation and configuration to monitoring, evaluation, and security testing. By leveraging built-in capabilities such as tracing, Application Insights integration, evaluation frameworks, and red teaming, this use case demonstrates how organizations can build AI systems that are transparent, secure, and production-ready. The Contoso Travel scenario serves as a practical example to illustrate how intelligent agents can be governed and observed effectively within a unified platform.
+In modern AI-driven applications, managing multiple AI agents, ensuring their reliability, and maintaining visibility into their behavior is essential. This scenario focuses on implementing centralized governance and observability using Microsoft Foundry Control Plane. The lab walks through the complete lifecycle of AI agents—from creation and configuration to monitoring, evaluation, and security testing. By leveraging built-in capabilities such as tracing, Application Insights integration, evaluation frameworks, and red teaming, this use case demonstrates how organizations can build AI systems that are transparent, secure, and production-ready. The Contoso Travel scenario serves as a practical example to illustrate how intelligent agents can be governed and observed effectively within a unified platform.
 
 ### Objectives
 
@@ -35,30 +35,120 @@ In modern AI-driven applications, managing multiple AI agents, ensuring their re
 
 In this exercise, you will establish the foundational setup required to begin working with AI agents in Microsoft Foundry. The focus is on creating a project environment, configuring essential resources, and understanding the basic workflow of agent development. You will create a Foundry project, define an AI agent, and enable monitoring using Azure Application Insights. Additionally, you will explore how to test agent prompts, analyze responses, and review evaluation metrics. This exercise provides the necessary groundwork for building, monitoring, and governing AI agents effectively.
 
-### Task 1: Microsoft Foundry project
+### Task 1: Create the Microsoft Foundry resource
 
-This task introduces you to the process of setting up your Microsoft Foundry project. You will access the Foundry portal, create a new project, and configure it with the appropriate subscription and resource group. This step is essential as it establishes the environment where all subsequent AI development and management activities will take place.
+1. Open a browser and sign in to the Azure portal at +++https://portal.azure.com/+++ with your credentials.
 
-Follow the steps below to complete the setup of your Microsoft Foundry project.
+    | **Username** | +++@lab.CloudPortalCredential(User1).Username+++ |
+    |----|----|
+    | **Temporary Access Pass** | +++@lab.CloudPortalCredential(User1).AccessToken+++ |
 
-1. Open a new tab and copy and navigate to this link +++https://ai.azure.com/templates+++.
+1. Click on Subscriptions tile.
 
-1. You should see a dialog box prompting you to select a project to continue.
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5b1.png)
+  
+1. Click on the subscription name.
 
-1. Replace the existing project name with +++Contoso-Travel-@lab.LabInstance.Id+++ and click on **Create** to set up your Microsoft Foundry project.
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5b2.png)
 
-    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image1.png)
+1. Expand Settings from the left navigation menu. Click on Resource providers, enter +++Microsoft.CognitiveServices+++ and select it, and then click Register.
 
-1. The project creation process may take a few minutes to complete.
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5b3.png)
 
-1. On the **Your project is set up. What would you like to do next?** pop-up, click on **Skip**.
+1. Repeat step 4 to register the following Resource provider.
 
-    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image2.png)
+    `Microsoft.AlertsManagement`
+
+    `Microsoft.App`
+
+    `Microsoft.ContainerRegistry`
+
+    `Microsoft.OperationalInsights`
+
+    `Microsoft.Insights`
+
+1. On the Azure portal home page, under **Azure services**, select **Foundry**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a1.png)
+
+    >[!Tip] If **Foundry** is not shown on the home page, enter +++Microsoft Foundry+++ in the portal search bar and select **Microsoft Foundry**.
+
+1. In the left navigation pane, expand **All models,agents&tools**, and then select **Microsoft Foundry**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a20.png)
+
+1. Select **+ Create**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a3.png)
+
+1. On the **Basics** tab, enter the following details:
+
+    | **Setting** | **Value** |
+    |----|----|
+    | **Subscription** | Keep the default subscription |
+    | **Resource group** | **@lab.CloudResourceGroup(AgenticAI).Name** |
+    | **Name** | +++Contoso-Travel-@lab.LabInstance.Id-resource+++ |
+    | **Region** | **(US) East US 2** |
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a4.png)
+
+    >[!Note] The Foundry resource name must be unique. If you see *The name is already in use*, add a few more characters to the end of it (for example, **1**).
+
+1. Scroll down to **Your first project**. In the **Default project name** box, enter +++Contoso-Travel-@lab.LabInstance.Id+++, and then select **Next**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a5.png)
+
+    >[!Note] When you create a Foundry resource, a default project is also created. The default project has more capabilities than projects that you create later.
+
+1. On the **Storage** tab, under **Credential storage and application logging**, select **Select Application Insights**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a6.png)
+
+    >[!Note] Application Insights collects the traces, logs, and performance data from the apps and agents in this Foundry resource. The settings on this tab become the default for every project created under this Foundry resource.
+
+1. In the **Select Application Insights** pane, select **Create new**. In the **Name** box, enter +++Contoso-Travel+++, and then select **Create**.
+
+1. Select **Add**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a7.png)
+
+1. Verify that **Contoso-Travel** is shown under **Application Insights**, and then select **Review + create**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a8.png)
+
+    >[!Note] You can leave **Key Vault** empty. In the basic configuration, credentials are stored directly on the Foundry resource.
+
+1. Review the settings, and then select **Create**.
+
+1. Wait for the deployment to complete. The **Deployment details** list shows the Foundry resource and the **Contoso-Travel** Application Insights resource. This takes about **2-5 minutes**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a9.png)
+
+1. When you see **Your deployment is complete**, select **Go to resource**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a10.png)
+
+1. On the Foundry resource **Overview** page, verify that the **API Kind** is **AIServices**, the **Location** is **eastus2**, and the **Status** is **Succeeded**. Then select **Go to Foundry portal**.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5a11.png)
+
+1. Navigate to the AgenticAI resource group.
+
+1. Under Access control (IAM) (1), select Add role assignment (3) from the + Add drop-down.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5c1.png)
+
+1. Search for +++Foundry User+++, select it from the list (2), and click on Next (3).
+1. Click on + Select members, search for +++@lab.CloudPortalCredential(User1).Username+++, select your user, click on Select, and then click on Review + assign twice.
+
+    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/lab5c2.png)
+  
+    >[!Note] The Foundry portal opens in a new browser tab. Keep the Azure portal tab open; you will return to it in later exercises.
 
 
 ### Task 2: Create an AI Agent
 
-In this task, you will create your first AI agent within the Foundry environment. The agent will act as a travel assistant designed to help users plan trips and provide relevant recommendations. You will define the agent's identity, deploy it, and test its functionality using the playground interface.
+In this task, you will create your first AI agent within the Foundry environment. The agent will act as a travel assistant designed to help users plan trips and provide relevant recommendations. You will define the agent’s identity, deploy it, and test its functionality using the playground interface.
 
 1. Select **Build (1)** from the top navigation pane, click on **Deployments (2)** from the left navigation pane, click on **Deploy (3)** & select **Deploy a base model (4)** from the dropdown.
 
@@ -93,11 +183,11 @@ This task focuses on enabling observability for your AI solution. By creating an
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image8.png)
 
-1. Select **@lab.CloudResourceGroup(ResourceGroup1).Name** from the list of resource groups.
+1. Select **AgenticAI** from the list of resource groups.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image9.png)
 
-1. Select **contoso-travel-@lab.LabInstance.Id-resource-appinsights** from the list of resources.
+1. Select **contoso-travel-2306402-resource-appinsights** from the list of resources.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image10.png)
 
@@ -105,7 +195,7 @@ This task focuses on enabling observability for your AI solution. By creating an
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image11.png)
 
-1. In the search bar, type **+++Monitoring Reader+++ (1)**, select **Monitoring Reader (2)** from the results, and click on **Next (3)**.
+1. In the search bar, type **Monitoring Reader (1)**, select **Monitoring Reader (2)** from the results, and click on **Next (3)**.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image12.png)
 
@@ -124,7 +214,7 @@ This task focuses on enabling observability for your AI solution. By creating an
 
 ### Task 4: Test the Agent Prompt
 
-In this task, you will refine and test your agent's behavior using prompt engineering. You will define clear instructions for the agent , execute sample queries, and evaluate the responses. This helps ensure that the agent provides accurate, relevant, and user-friendly outputs while adhering to its intended role
+In this task, you will refine and test your agent’s behavior using prompt engineering. You will define clear instructions for the agent , execute sample queries, and evaluate the responses. This helps ensure that the agent provides accurate, relevant, and user-friendly outputs while adhering to its intended role
 
 1. Navigate back to the Microsoft Foundry tab and select your previously created agent - **contoso-travel-portal** from the list of agents
 
@@ -243,7 +333,7 @@ In this task, you will refine and test your agent's behavior using prompt engine
 
 1. Enter the following promot in the same chat and click on the **Submit icon** .
 
-    `Hi! I'm thinking about planning a trip to Paris from Jul 1-4 with my family (3 people total). We are vegetarian. We love sports, historic homes, art and food tours.`
+    `Hi! I'm thinking about planning a trip to Paris from Jul 1–4 with my family (3 people total). We are vegetarian. We love sports, historic homes, art and food tours.`
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image26.png)
 
@@ -314,7 +404,7 @@ By now you should have a sense for the *Tracing* and *Evaluations* capabilities 
 
 1. Provide the following details:
 
-    - Enter **Evaluator name** as +++customevaluator+++ **(1)**
+    - Enter **Evaluator name** as +++customevaluator (1)+++
     - Select **Model** as **gpt-5.2 (2)**
     - Choose **Target agent (Optional)** as **contoso-travel-portal
     (3)**
@@ -358,7 +448,7 @@ This task involves setting up a cloud-based development environment using GitHub
 
 >[!Note] You are expected to have your own GitHub login credentials. If you do not have an account, please create one by visiting below shared URL:
 
-+++https://github.com/signup?user_email=&source=form-home-signup+++
+https://github.com/signup?user_email=&source=form-home-signup
 
 1. Open your browser, navigate to the address bar, type or paste the following URL:
 
@@ -370,7 +460,7 @@ This task involves setting up a cloud-based development environment using GitHub
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image45.png)
 
-1. Replace the name with **Foundry-Control-@lab.LabInstance.Id (1)** and click on **Create Fork (2)** .
+1. Replace the name with **Foundry-Control-2306402 (1)** and click on **Create Fork (2)** .
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image46.png)
 
@@ -416,7 +506,7 @@ This task involves setting up a cloud-based development environment using GitHub
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image56.png)
 
-1. Enter the resource group as @lab.CloudResourceGroup(ResourceGroup1).Name.
+1. Enter the resource group as +++AgenticAI+++.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image57.png)
 
@@ -530,7 +620,7 @@ This task focuses on creating an AI agent programmatically using the Foundry SDK
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image86.png)
 
-1. Run the cell under **Explore the Response Object** to inspect the structure and details of the agent's response.
+1. Run the cell under **Explore the Response Object** to inspect the structure and details of the agent’s response.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image87.png)
 
@@ -579,7 +669,7 @@ In this task, you will enhance your agent by adding function tools that allow it
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image99.png)
 
-1. Run the cell under **Test: Flight Search** to test the agent's ability to call the **search_flights** tool and return relevant results.
+1. Run the cell under **Test: Flight Search** to test the agent’s ability to call the **search_flights** tool and return relevant results.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image100.png)
 
@@ -681,7 +771,7 @@ In this task, you will enable tracing and observability for your agent using tel
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image125.png)
 
-1. Run the cell under **Run a Traced Travel Query** to check the console output below - OpenTelemetry spans appear for each operation.
+1. Run the cell under **Run a Traced Travel Query** to check the console output below — OpenTelemetry spans appear for each operation.
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2005/media/image126.png)
 
@@ -732,7 +822,7 @@ In this task, you will enable tracing and observability for your agent using tel
 
 ### Task 7: Evaluate Your Travel Agent
 
-This task focuses on evaluating your agent's performance using structured evaluation techniques. You will assess the agent's responses for quality, safety, and relevance, and interpret the results to identify areas for improvement.
+This task focuses on evaluating your agent’s performance using structured evaluation techniques. You will assess the agent’s responses for quality, safety, and relevance, and interpret the results to identify areas for improvement.
 
 1. Navigate to the **labs/notebooks/1-prompt-agents/lab** folder and open the **lab-05-evaluation.ipynb** notebook to begin the environment setup lab.
 
