@@ -54,14 +54,14 @@ In this exercise, you will establish the foundational setup required to begin wo
    ![](./media/lab5b3.png)
 
 5. Repeat step 4 to register the following Resource provider.
-o	+++Microsoft.AlertsManagement+++
-o	+++Microsoft.App+++
-o	+++Microsoft.ContainerRegistry+++
-o	+++Microsoft.OperationalInsights+++
-o	+++Microsoft.Insights+++
+      +++Microsoft.AlertsManagement+++
+      +++Microsoft.App+++
+      +++Microsoft.ContainerRegistry+++
+      +++Microsoft.OperationalInsights+++
+      +++Microsoft.Insights+++
  
 
-6.  On the Azure portal home page, under **Azure services**, select **Foundry**.
+7.  On the Azure portal home page, under **Azure services**, select **Foundry**.
 
 ![](./media/lab5a1.png)
 
@@ -125,6 +125,18 @@ o	+++Microsoft.Insights+++
 18. On the Foundry resource **Overview** page, verify that the **API Kind** is **AIServices**, the **Location** is **eastus2**, and the **Status** is **Succeeded**. Then select **Go to Foundry portal**.
 
 ![](./media/lab5a11.png)
+
+19. Navigate to the AgenticAI resource group.
+
+20. Under Access control (IAM) (1), select Add role assignment (3) from the + Add drop-down.
+
+![](./media/lab5c1.png)
+
+21. Search for +++Foundry User+++, select it from the list (2), and click on Next (3).
+22. Click on + Select members, search for +++@lab.CloudPortalCredential(User1).Username+++, select your user, click on Select, and then click on Review + assign twice.
+
+![](./media/lab5c2.png)
+    
 
 **Note:** The Foundry portal opens in a new browser tab. Keep the Azure portal tab open; you will return to it in later exercises.
 
