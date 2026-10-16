@@ -49,9 +49,9 @@ In this exercise, you will establish the foundational setup required to begin wo
 
 **Tip:** If **Foundry** is not shown on the home page, enter +++Microsoft Foundry+++ in the portal search bar and select **Microsoft Foundry**.
 
-3.  In the left navigation pane, expand **Use with Foundry**, and then select **Foundry**.
+3.  In the left navigation pane, expand **All models,agents&tools**, and then select **Microsoft Foundry**.
 
-![](./media/lab5a2.png)
+![](./media/lab5a20.png)
 
 4.  Select **+ Create**.
 
