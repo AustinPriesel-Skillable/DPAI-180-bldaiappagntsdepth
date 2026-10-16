@@ -71,21 +71,16 @@ Studio Code:
 
 **Objectives**:
 
-- Deploy the Foundry IQ lab resources (Azure AI Search, Azure OpenAI,
+1. Deploy the Foundry IQ lab resources (Azure AI Search, Azure OpenAI,
   Microsoft Foundry, and Azure Storage) using an ARM template.
-
-- Create a search index, knowledge sources, and a knowledge base with
+2.  Create a search index, knowledge sources, and a knowledge base with
   Foundry IQ.
-
 - Query a knowledge base with agentic retrieval and inspect the query
   plan, activity, and references.
-
 - Connect a knowledge base to a Foundry Agent Service agent using an MCP
   tool.
-
 - Combine indexed, Azure Blob Storage, and web knowledge sources in one
   knowledge base.
-
 - Compare minimal, low, and medium retrieval reasoning effort and
   configure answer synthesis.
 
@@ -221,7 +216,7 @@ available in your region, and use the same deployment name later in the
 
 | **Subscription** | Keep the default subscription |
 |----|----|
-| **Resource group** | **Cloud-Native** |
+| **Resource group** | **Select Your resourcegroup** |
 | **Region** | Keep the default |
 | **User Object Id** | Paste the object ID you copied in Task 1 |
 | **Resource Prefix** | Keep **iqs** or enter a short prefix such as +++iqs1+++ |
