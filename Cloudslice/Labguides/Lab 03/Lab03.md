@@ -345,17 +345,19 @@ In this exercise, you fork and clone the HorizonShip repository, install the bac
 
 1. Switch to the Azure portal, open your HorizonDB cluster, and under **Settings** select **Networking**. Verify that **Allow public access from any Azure service within Azure to this cluster** is selected, and then click on **Save** if you made any changes.
 
-    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2003/media/image46.png)
+3.  Switch to the Azure portal, open your HorizonDB cluster, and under
+    **Settings** select **Networking**. Select **Add current clint IP address(223.185.130.94)** is
+    selected, and then click on **Save** if you made any changes.
 
-    >[!Note] If you run the app from a machine outside Azure (for example, your own laptop), also select **+ Add current client IP address** and then **Save**; otherwise the backend cannot connect to the cluster.
+![](./media/lab3a1.png)
 
 1. Back in Visual Studio Code, verify that **AZURE_PG_NAME** is set to **postgres**, and then run the database setup script.
 
     `.\.venv\Scripts\python -m app.setup_database`
 
-    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2003/media/image47.png)
+> +++.\.venv\Scripts\python -m app.setup_database 2>&1 | Select-Object -Last 15+++
 
-    >[!Note] At this point, the script fails with a **HINT: to learn how to allow an extension...** message. This is expected - HorizonDB only allows extensions that are listed in the cluster's **azure.extensions** parameter. You fix this in the next exercise.
+![](./media/lab3a2.png)
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2003/media/image48.png)
 
@@ -492,11 +494,15 @@ On HorizonDB, parameters are managed through **parameter groups**. You create a 
 
     ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2003/media/image64.png)
 
-1. If the command lists **AZURE_OPENAI_API_KEY** or **AZURE_OPENAI_ENDPOINT** (left over from another lab), remove them so that the values in your **.env** file are used.
+[!IMPORTANT] : If the command lists **AZURE_OPENAI_API_KEY** or
+    **AZURE_OPENAI_ENDPOINT** (left over from another lab), remove them
+    so that the values in your **.env** file are used.
 
     - `Remove-Item Env:AZURE_OPENAI_ENDPOINT -ErrorAction SilentlyContinue`
     - `Remove-Item Env:AZURE_OPENAI_API_KEY -ErrorAction SilentlyContinue`
 
+5.  Run the following command again and confirm that nothing is
+    returned.
 
 1. Run the following command again and confirm that nothing is returned.
 
@@ -506,6 +512,10 @@ On HorizonDB, parameters are managed through **parameter groups**. You create a 
 
     >[!Important] Environment variables set in the terminal take precedence over the .env file. If you skip this step, the app may call a different Azure OpenAI resource and fail with an authentication or *deployment not found* error.
 
+[!IMPORTANT] Environment variables set in the terminal take
+precedence over the .env file. If you skip this step, the app may call a
+different Azure OpenAI resource and fail with an authentication or
+*deployment not found* error.
 
 ### Task 4: Seed the database
 

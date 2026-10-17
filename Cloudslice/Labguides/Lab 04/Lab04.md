@@ -37,22 +37,17 @@ You work through three hands-on Jupyter notebooks (cookbooks) in Visual Studio C
 
 ### Objectives
 
-    - Deploy the Foundry IQ lab resources (Azure AI Search, Azure OpenAI,
+1. Deploy the Foundry IQ lab resources (Azure AI Search, Azure OpenAI,
   Microsoft Foundry, and Azure Storage) using an ARM template.
-
-    - Create a search index, knowledge sources, and a knowledge base with
+2.  Create a search index, knowledge sources, and a knowledge base with
   Foundry IQ.
-
-    - Query a knowledge base with agentic retrieval and inspect the query
+- Query a knowledge base with agentic retrieval and inspect the query
   plan, activity, and references.
-
-    - Connect a knowledge base to a Foundry Agent Service agent using an MCP
+- Connect a knowledge base to a Foundry Agent Service agent using an MCP
   tool.
-
-    - Combine indexed, Azure Blob Storage, and web knowledge sources in one
+- Combine indexed, Azure Blob Storage, and web knowledge sources in one
   knowledge base.
-
-    - Compare minimal, low, and medium retrieval reasoning effort and
+- Compare minimal, low, and medium retrieval reasoning effort and
   configure answer synthesis.
 
 
@@ -158,14 +153,12 @@ The deployment template grants your user account access to Azure AI Search, Azur
 
 1. On the **Basics** tab, enter the following details and click on **Review + create**.
 
-    | **Subscription** | Keep the default subscription |
-    |----|----|
-    | **Resource group** | **Cloud-Native** |
-    | **Region** | Keep the default |
-    | **User Object Id** | Paste the object ID you copied in Task 1 |
-    | **Resource Prefix** | Keep **iqs** or enter a short prefix such as iqs1 |
-
-    ![](https://raw.githubusercontent.com/technofocus-pte/bldaiappagntsdepth/refs/heads/main/Cloudslice/Labguides/Lab%2004/media/image15.png)
+| **Subscription** | Keep the default subscription |
+|----|----|
+| **Resource group** | **Select Your resourcegroup** |
+| **Region** | Keep the default |
+| **User Object Id** | Paste the object ID you copied in Task 1 |
+| **Resource Prefix** | Keep **iqs** or enter a short prefix such as +++iqs1+++ |
 
 1. Click on **Create**.
 
