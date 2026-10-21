@@ -176,9 +176,24 @@ To keep focus on AKS-specific features, this workshop requires several Azure res
 
     `curl -o main.json https://raw.githubusercontent.com/azure-samples/aks-labs/refs/heads/main/docs/getting-started/aks-automatic/assets/main.json`
 
-1. Run the following command to update the Application Insights API version in the template. The API version in the original template causes the Application Insights deployment to fail. No output means the command succeeded.
+1. Run the following command to update the Application Insights API version in the template. The API version in the original template causes the Application Insights deployment to fail.
 
-    `python3 -c "import json; t=json.load(open('main.json')); [r.update(apiVersion='2020-02-02') for r in t['resources'] if r.get('type')=='Microsoft.Insights/components']; json.dump(t, open('main.json','w'), indent=2)";`
+	```bash
+	   python3 - <<'EOF'
+	   import json
+	   def walk(o):
+	       if isinstance(o, dict):
+	           if str(o.get('type','')).lower() == 'microsoft.insights/components' and 'apiVersion' in o:
+	               print('patched', o.get('name'), o['apiVersion'], '-> 2020-02-02')
+	               o['apiVersion'] = '2020-02-02'
+	           for v in o.values(): walk(v)
+	       elif isinstance(o, list):
+	           for v in o: walk(v)
+	   t = json.load(open('main.json'))
+	   walk(t)
+	   json.dump(t, open('main.json','w'), indent=2)
+	   EOF
+	```
 
 1. Run the following command to deploy the template into your resource group.
 
